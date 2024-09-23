@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up and Login - Solid Waste Management System</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-top: 5px solid #00796b;
+        }
+        .container h1 {
+            text-align: center;
+            color: #00796b;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            color: #00796b;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #00796b;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            padding: 15px;
+            width: 100%;
+            background-color: #004d40;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+        button:hover {
+            background-color: #002f2f;
+        }
+        .message {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .error {
+            color: #d32f2f;
+        }
+        .success {
+            color: #388e3c;
+        }
+        .main-heading {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #004d40;
+        }
+        .main-heading h1 {
+            font-size: 2.5rem;
+            margin: 0;
+            padding: 0;
+        }
+        .form-container {
+            display: none;
+        }
+        .waste-container {
+            display: none;
+        }
+        .waste-headings {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #004d40;
+        }
+        .waste-headings h2 {
+            margin: 10px 0;
+            font-size: 1.5rem;
+            color: #00796b;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Heading -->
+    <div class="main-heading">
+        <h1>Solid Waste Management System</h1>
+    </div>
+
+    <!-- Sign Up Form -->
+    <div class="container" id="signupContainer">
+        <h1>Sign Up</h1>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="signupUsername">Username</label>
+                <input type="text" id="signupUsername" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Enter your password" required>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="message" id="signupMessage"></div>
+    </div>
+
+    <!-- Login Form -->
+    <div class="container" id="loginContainer">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="loginUsername">Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <div class="message" id="loginMessage"></div>
+    </div>
+
+    <!-- Solid Waste Management System Headings -->
+    <div class="waste-headings">
+        <h2>Efficient Waste Collection</h2>
+        <h2>Schedule Pickup at Your Convenience</h2>
+        <h2>Track Waste Collection Status</h2>
+    </div>
+
+    <!-- Solid Waste Management System (after login) -->
+    <div class="container waste-container" id="solidWasteSystem">
+        <h1>Solid Waste Management System</h1>
+
+        <!-- Schedule Waste Collection -->
+        <div class="form-section">
+            <h2>Schedule Waste Collection</h2>
+            <form id="scheduleForm">
+                <input type="text" id="userId" placeholder="User ID" readonly><br><br>
+                <select id="wasteType">
+                    <option value="Organic">Organic</option>
+                    <option value="Recyclable">Recyclable</option>
+                    <option value="Hazardous">Hazardous</option>
+                </select><br><br>
+                <input type="date" id="scheduledDate" required><br><br>
+                <button type="submit">Schedule Collection</button>
+            </form>
+            <div class="message" id="scheduleMessage"></div>
+        </div>
+
+        <!-- Check Collection Status -->
+        <div class="form-section">
+            <h2>Check Collection Status</h2>
+            <form id="statusForm">
+                <input type="text" id="statusUserId" placeholder="User ID" readonly><br><br>
+                <button type="submit">Check Status</button>
+            </form>
+            <div class="message" id="statusMessage"></div>
+        </div>
+    </div>
+
+    <script>
+        // Sign Up Logic
+        document.getElementById('signupForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let username = document.getElementById('signupUsername').value;
+            let password = document.getElementById('signupPassword').value;
+
+            // Simple validation
+            if (username && password) {
+                // Store the data in localStorage
+                localStorage.setItem('username', username);
+                localStorage.setItem('password', password);
+
+                // Display success message
+                document.getElementById('signupMessage').innerText = "Sign up successful!";
+                document.getElementById('signupMessage').className = "message success";
+            } else {
+                document.getElementById('signupMessage').innerText = "Please fill out all fields.";
+                document.getElementById('signupMessage').className = "message error";
+            }
+        });
+
+        // Login Logic
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let enteredUsername = document.getElementById('loginUsername').value;
+            let enteredPassword = document.getElementById('loginPassword').value;
+
+            // Retrieve stored data from localStorage
+            let storedUsername = localStorage.getItem('username');
+            let storedPassword = localStorage.getItem('password');
+
+            // Validate entered data against stored data
+            if (enteredUsername === storedUsername && enteredPassword === storedPassword) {
+                document.getElementById('loginMessage').innerText = "Login successful!";
+                document.getElementById('loginMessage').className = "message success";
+
+                // Hide login and sign-up containers, show waste management system
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('signupContainer').style.display = 'none';
+                document.getElementById('solidWasteSystem').style.display = 'block';
+
+                // Set User ID in the forms
+                document.getElementById('userId').value = enteredUsername;
+                document.getElementById('statusUserId').value = enteredUsername;
+            } else {
+                document.getElementById('loginMessage').innerText = "Invalid username or password.";
+                document.getElementById('loginMessage').className = "message error";
+            }
+        });
+
+        // Schedule Waste Collection Logic
+        document.getElementById('scheduleForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let wasteType = document.getElementById('wasteType').value;
+            let scheduledDate = document.getElementById('scheduledDate').value;
+
+            // Generate random collection status message
+            let randomStatus = ['Confirmed', 'Pending', 'Completed'];
+            let randomMessage = randomStatus[Math.floor(Math.random() * randomStatus.length)];
+
+            // Display message
+            document.getElementById('scheduleMessage').innerText = `Collection for ${wasteType} on ${scheduledDate} is ${randomMessage}.`;
+            document.getElementById('scheduleMessage').className = "message success";
+        });
+
+        // Check Collection Status Logic
+        document.getElementById('statusForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Generate random collection status message
+            let randomStatus = ['Collected', 'Not Collected', 'In Progress'];
+            let randomMessage = randomStatus[Math.floor(Math.random() * randomStatus.length)];
+
+            // Display message
+            document.getElementById('statusMessage').innerText = `Waste collection status: ${randomMessage}.`;
+            document.getElementById('statusMessage').className = "message success";
+        });
+    </script>
+
+</body>
+</html>
